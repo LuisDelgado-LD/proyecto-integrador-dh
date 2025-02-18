@@ -1,0 +1,6 @@
+[submodule "integradorG5Front"]
+	path = integradorG5Front
+	url = git@github.com:jfcuadra/integradorG5Front.git
+[submodule "integradorG5Back"]
+	path = integradorG5Back
+	url = git@github.com:jfcuadra/integradorG5Back.git

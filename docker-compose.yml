@@ -1,0 +1,30 @@
+services:
+ frontend:
+  build:
+   context: ./integradorG5Front/
+   tags:
+    - "v0.5"
+  image: proyectointegrador-frontend:v0.5
+  ports:
+   - 8080:5173
+ backend:
+  build:
+   context: ./integradorG5Back/
+   tags:
+    - "v0.5"
+  image: proyectointegrador-backend:v0.5
+  ports:
+   - 8081:8080
+ database:
+  image: mysql:9.2.0
+  environment:
+   - MYSQL_USER=My_own_USER
+   - MYSQL_PASSWORD=ds8adskjl21edas9
+   - MYSQL_ROOT_PASSWORD=123456789
+   - MYSQL_DATABASE=pet_paradise
+  ports:
+   - 3310:3306  
+  networks:
+   default:
+    aliases:
+     - database   
