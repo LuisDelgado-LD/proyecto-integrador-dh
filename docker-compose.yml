@@ -3,26 +3,32 @@ services:
   build:
    context: ./integradorG5Front/
    tags:
-    - "v0.5"
-    - "ghcr.io/luisdelgado-ld/frontend:v0.5"
+    - "v0.7"
+    - "ghcr.io/luisdelgado-ld/frontend:v0.7"
     - "ghcr.io/luisdelgado-ld/frontend:latest"
   image: ghcr.io/luisdelgado-ld/frontend:latest
   ports:
-   - 8585:5173
+   - 8585:80
   networks:
    default:
     aliases:
      - proyectointegrador-frontend
+     - frontend
  backend:
   build:
    context: ./integradorG5Back/
    tags:
-    - "v0.5"
-    - "ghcr.io/luisdelgado-ld/backend:v0.5"
+    - "v0.7"
+    - "ghcr.io/luisdelgado-ld/backend:v0.7"
     - "ghcr.io/luisdelgado-ld/backend:latest"
   image: ghcr.io/luisdelgado-ld/backend:latest
   ports:
    - 8586:8080
+  networks:
+   default:
+    aliases:
+     - backend
+     - proyectointegrador-backend
  database:
   image: mysql:9.2.0
   environment:
@@ -37,3 +43,9 @@ services:
     aliases:
      - database   
      - proyectointegrador-database
+ ddns:
+  image: ghcr.io/noipcom/noip-duc:3.2.0
+  environment:
+   - NOIP_USERNAME=53a2ake
+   - NOIP_PASSWORD=2AALUKECTbpA
+   - NOIP_HOSTNAMES=petparadise.sytes.net
