@@ -3,7 +3,6 @@ services:
   build:
    context: ./integradorG5Front/
    tags:
-    - "v1.0"
     - "ghcr.io/luisdelgado-ld/frontend:v1.0"
     - "ghcr.io/luisdelgado-ld/frontend:latest"
   image: ghcr.io/luisdelgado-ld/frontend:latest
@@ -16,14 +15,24 @@ services:
     aliases:
      - proyectointegrador-frontend
      - frontend
+  healthcheck:
+   test: ["CMD","curl", "http://localhost"]
+   timeout: 5s
+   retries: 3
  backend:
   build:
    context: ./integradorG5Back/
    tags:
-    - "v1.0"
     - "ghcr.io/luisdelgado-ld/backend:v1.0"
     - "ghcr.io/luisdelgado-ld/backend:latest"
   image: ghcr.io/luisdelgado-ld/backend:latest
+  environment:
+   - DB_URL=jdbc:mysql://database/pet_paradise
+   - DB_USER=My_own_USER
+   - DB_PASS=ds8adskjl21edas9
+   - CLOUD_NAME=f,sajdlaksd
+   - CLOUD_KEY=8293719231
+   - CLOUD_SECRET=asdhqwked
   restart:
     always
   ports:
@@ -33,15 +42,27 @@ services:
     aliases:
      - backend
      - proyectointegrador-backend
+  healthcheck:
+   test: ["CMD","wget", "http://localhost:8080/api/habitaciones/all", "-O", "/dev/null"]
+   timeout: 5s
+   retries: 3
+  depends_on:
+   database:
+    condition: service_healthy
  database:
-  image: mysql:9.2.0
+  build:
+   context: ./database/
+   tags:
+    - "ghcr.io/luisdelgado-ld/database:v1.0"
+    - "ghcr.io/luisdelgado-ld/database:latest"
+  image: ghcr.io/luisdelgado-ld/database:latest
   environment:
    - MYSQL_USER=My_own_USER
    - MYSQL_PASSWORD=ds8adskjl21edas9
    - MYSQL_ROOT_PASSWORD=123456789
    - MYSQL_DATABASE=pet_paradise
   ports:
-   - 3310:3306
+   - 3306:3306
   restart:
    always
   volumes:
@@ -51,6 +72,10 @@ services:
     aliases:
      - database
      - proyectointegrador-database
+  healthcheck:
+   test: ["CMD","mysqladmin","ping","-h","localhost"]
+   timeout: 5s
+   retries: 3
  ddns:
   image: ghcr.io/noipcom/noip-duc:3.2.0
   restart:
