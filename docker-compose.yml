@@ -1,4 +1,9 @@
 services:
+ certbot:
+  image: certbot/certbot:latest
+  volumes:
+   - www:/var/www/certbot/:rw
+   - cert:/etc/letsencrypt/:rw
  frontend:
   build:
    context: ./integradorG5Front/
@@ -10,6 +15,10 @@ services:
     always
   ports:
    - 80:80
+   - 443:443
+  volumes:
+   - www:/var/www/certbot/:ro
+   - cert:/etc/nginx/ssl/:ro
   networks:
    default:
     aliases:
@@ -89,3 +98,6 @@ services:
 
 volumes:
  db:
+ www:
+ cert:
+
