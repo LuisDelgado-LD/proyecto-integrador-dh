@@ -1,0 +1,58 @@
+name: CD en EC2
+
+registry_package:
+    types: [published]
+
+jobs:
+
+  EncenderMaquinaLD:
+    if: github.event.registry_package.name == 'frontend' || github.event.registry_package.name == 'database'
+    runs-on: ubuntu-latest
+    steps:
+     - name: Encendiendo EC2 Luis
+       run: curl https://d8rrltsbq9.execute-api.us-east-1.amazonaws.com/default/Encender-EC2
+  
+  EncenderMaquinaY:
+    if: github.event.registry_package.name == 'backend'
+    runs-on: ubuntu-latest
+    steps:
+     - name: Encendiendo EC2 Yeraldy
+       run: curl https://ychxl39zl4.execute-api.us-east-1.amazonaws.com/default/Encendido_EC2
+  
+  DeployFrontend:
+    if: github.event.registry_package.name == 'frontend'
+    runs-on: frontend
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Deploy Frontend
+      run: |
+        cd *royecto*
+        docker compose pull frontend
+        docker compose up -d --force-recreate frontend
+        
+
+  DeployBackend:
+    if: github.event.registry_package.name == 'backend'
+    runs-on: backend
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Deploy Backend
+      run: |
+        cd *royecto*
+        docker compose pull backend
+        docker compose up -d --force-recreate backend
+
+  DeployDatabase:
+    if: github.event.registry_package.name == 'database'
+    runs-on: database
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Deploy Database
+      run: |
+        cd *royecto*
+        docker compose pull database
+        docker compose up -d --force-recreate database
+  
