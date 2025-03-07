@@ -1,6 +1,7 @@
 name: CD en EC2
 
-registry_package:
+on:
+  registry_package:
     types: [published]
 
 jobs:
