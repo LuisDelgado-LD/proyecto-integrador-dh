@@ -1,0 +1,42 @@
+services:
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+    - www:/var/www/certbot/:rw
+    - cert:/etc/letsencrypt/:rw
+
+  ddns:
+    image: ghcr.io/noipcom/noip-duc:3.2.0
+    restart: always
+    environment:
+    - NOIP_USERNAME=53a2ake
+    - NOIP_PASSWORD=2AALUKECTbpA
+    - NOIP_HOSTNAMES=petparadise.sytes.net
+
+  frontend:
+    image: ghcr.io/luisdelgado-ld/frontend:latest
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - www:/var/www/certbot/:ro
+      - cert:/etc/nginx/ssl/:ro
+    environment:
+      - URL_BACK=http://172.16.1.45:8080/api/
+  
+  backend:
+    image: ghcr.io/luisdelgado-ld/backend:latest
+    environment: !override
+      - CORS_ALLOWED=http://10.10.0.126/**, http://localhost:5173
+      - DB_URL=jdbc:mysql://10.10.0.126/pet_paradise
+      - DB_USER=My_own_USER
+      - DB_PASS=ds8adskjl21edas9
+    env_file:
+      .env
+
+  database:
+    image: ghcr.io/luisdelgado-ld/database:latest
+
+volumes:
+ www:
+ cert:
