@@ -1,11 +1,25 @@
 services:
+  cache:
+    #https://hub.docker.com/_/varnish
+    image: varnish:stable
+    #agregar limite de 380Mb de memoria para maquina LD
+    # 650Mb para maquina Y
+    volumes:
+      - ./cache/config/:/etc/varnish/:ro
+    networks:
+      default:
+        aliases:
+        - cache
+
   certbot:
     image: certbot/certbot:latest
     volumes:
     - www:/var/www/certbot/:rw
     - cert:/etc/letsencrypt/:rw
+    command: certonly --webroot -n --agree-tos --webroot-path /var/www/certbot/ -d petparadise.sytes.net
 
   ddns:
+    init: true
     image: ghcr.io/noipcom/noip-duc:3.2.0
     restart: always
     environment:
@@ -15,14 +29,14 @@ services:
 
   frontend:
     image: ghcr.io/luisdelgado-ld/frontend:latest
-    ports:
+    ports: !override
       - 80:80
       - 443:443
     volumes:
       - www:/var/www/certbot/:ro
       - cert:/etc/nginx/ssl/:ro
     environment:
-      - URL_BACK=http://172.16.1.45:8080/api/
+      - URL_BACK=http://172.16.1.45/api/
   
   backend:
     image: ghcr.io/luisdelgado-ld/backend:latest

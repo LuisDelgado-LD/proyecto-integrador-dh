@@ -1,64 +1,66 @@
 services:
- frontend:
-  build:
-    context: ./integradorG5Front/
-    tags:
-    - "ghcr.io/luisdelgado-ld/frontend:local"
-  image: ghcr.io/luisdelgado-ld/frontend:local
-  restart: always
-  ports:
-   - 80:80
-  networks:
-   default:
-    aliases:
-     - frontend
-  environment:
-   - URL_BACK=http://backend:8080/api/
- backend:
-  build:
-   context: ./integradorG5Back/
-   tags:
-    - "ghcr.io/luisdelgado-ld/backend:local"
-  image: ghcr.io/luisdelgado-ld/backend:local
-  environment:
-   - CORS_ALLOWED=http://localhost:5173
-   - DB_URL=jdbc:mysql://database/pet_paradise
-   - DB_USER=My_own_USER
-   - DB_PASS=ds8adskjl21edas9
-   - CLOUD_NAME=TU_NOMRE
-   - CLOUD_KEY=TU_KEY
-   - CLOUD_SECRET=TU_SECRET
-  restart:
-    always
-  ports:
-   - 8080:8080
-  networks:
-   default:
-    aliases:
-     - backend
-     
- database:
-  build:
-   context: ./database/
-   tags:
-    - "ghcr.io/luisdelgado-ld/database:local"
-  image: ghcr.io/luisdelgado-ld/database:local
-  environment:
-   - MYSQL_USER=My_own_USER
-   - MYSQL_PASSWORD=ds8adskjl21edas9
-   - MYSQL_ROOT_PASSWORD=123456789
-   - MYSQL_DATABASE=pet_paradise
-  ports:
-   - 3306:3306
-  restart:
-   always
-  volumes:
-   - db:/var/lib/mysql
-  networks:
-   default:
-    aliases:
-     - database
+  frontend:
+    init: true
+    build:
+      context: ./integradorG5Front/
+      tags:
+      - "ghcr.io/luisdelgado-ld/frontend:local"
+    image: ghcr.io/luisdelgado-ld/frontend:local
+    restart: always
+    ports:
+      - 80:80
+    networks:
+      default:
+        aliases:
+        - frontend
+    environment:
+      - URL_BACK=http://backend:8080/api/
+  backend:
+    init: true
+    build:
+      context: ./integradorG5Back/
+      tags:
+        - "ghcr.io/luisdelgado-ld/backend:local"
+    image: ghcr.io/luisdelgado-ld/backend:local
+    environment:
+      - CORS_ALLOWED=http://localhost:5173, http://localhost
+      - DB_URL=jdbc:mysql://database/pet_paradise
+      - DB_USER=My_own_USER
+      - DB_PASS=ds8adskjl21edas9
+      - CLOUD_NAME=TU_NOMRE
+      - CLOUD_KEY=TU_KEY
+      - CLOUD_SECRET=TU_SECRET
+    restart:
+      always
+    ports:
+      - 8080:8080   
+    networks:
+      default:
+        aliases:
+        - backend
+
+  database:
+    init: true
+    build:
+      context: ./database/
+      tags:
+        - "ghcr.io/luisdelgado-ld/database:local"
+    image: ghcr.io/luisdelgado-ld/database:local
+    environment:
+      - MYSQL_USER=My_own_USER
+      - MYSQL_PASSWORD=ds8adskjl21edas9
+      - MYSQL_ROOT_PASSWORD=123456789
+      - MYSQL_DATABASE=pet_paradise
+    ports:
+      - 3306:3306
+    restart: always
+    volumes:
+     - db:/var/lib/mysql
+    networks:
+      default:
+        aliases:
+        - database
 
 volumes:
- db:
+  db:
 
