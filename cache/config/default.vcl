@@ -62,6 +62,7 @@ sub vcl_backend_response {
     return(deliver);
 }
 
+/*
 sub vcl_deliver {
     set resp.http.cache_api_hash = regsub(req.url, "^/api/(.*)/.*", "\1");
     set resp.http.testregex = regsub(req.url, "^/api/(\w*)/?.*","\1");
@@ -69,3 +70,4 @@ sub vcl_deliver {
     // set demo = req.method + req.url;   no acepta variables personalizadas
     set resp.http.hash = req.method + req.url;
 }
+*/
