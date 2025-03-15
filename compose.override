@@ -6,6 +6,9 @@ services:
     # 650Mb para maquina Y
     volumes:
       - ./cache/config/:/etc/varnish/:ro
+    ports:
+      - 88:80
+      # - 8443:8443
     networks:
       default:
         aliases:
@@ -36,7 +39,7 @@ services:
       - www:/var/www/certbot/:ro
       - cert:/etc/nginx/ssl/:ro
     environment:
-      - URL_BACK=http://172.16.1.45/api/
+      - URL_BACK=http://172.16.1.45:88/api/
   
   backend:
     image: ghcr.io/luisdelgado-ld/backend:latest
