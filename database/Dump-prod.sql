@@ -38,7 +38,7 @@ CREATE TABLE `categorias` (
 
 LOCK TABLES `categorias` WRITE;
 /*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
-INSERT INTO `categorias` VALUES (1,'Premium','cuentas con estadía, alimentación, paseo y Peluqueria','https://res.cloudinary.com/djcdkjvrt/image/upload/v1740859776/categorias/pqqzvtkhklc2tlh0kwar.jpg'),(2,'Basica','cuentas con estadía, alimentación y paseo','https://res.cloudinary.com/djcdkjvrt/image/upload/v1740857267/categorias/tlymq2wfu8xlzuvmabnd.jpg'),(3,'VIP','cuentas con estadía, alimentación, paseo, Peluqueria y entrenamiento','https://res.cloudinary.com/djcdkjvrt/image/upload/v1740857324/categorias/uhqchgfollxm2mqpefru.jpg'),(8,'SUPER','cuentas con estadía y paseo, debes traer tu comida','https://res.cloudinary.com/djcdkjvrt/image/upload/v1741048250/categorias/xi6quesqd4lqqwmj48xi.jpg');
+INSERT INTO `categorias` VALUES (2,'Premium','cuentas con estadía, alimentación, paseo y Peluqueria','/img/2patitas.png'),(1,'Basica','cuentas con estadía, alimentación y paseo','/img/1patita.png'),(3,'VIP','cuentas con estadía, alimentación, paseo, Peluqueria y entrenamiento','/img/3patitas.png'),(4,'SUPER','cuentas con estadía y paseo, debes traer tu comida','https://res.cloudinary.com/djcdkjvrt/image/upload/v1741048250/categorias/xi6quesqd4lqqwmj48xi.jpg');
 /*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -71,7 +71,7 @@ CREATE TABLE `habitaciones` (
 
 LOCK TABLES `habitaciones` WRITE;
 /*!40000 ALTER TABLE `habitaciones` DISABLE KEYS */;
-INSERT INTO `habitaciones` VALUES (_binary '',150000,2,1,1,'habitación 01','Una habitación espaciosa para perros grandes con cama acolchonada.'),(_binary '',150000,2,2,2,'habitación 02','Una habitación espaciosa para perros grandes con cama acolchonada.'),(_binary '',150000,2,2,3,'habitación 3','Una habitación espaciosa para perros grandes con cama acolchonada.');
+INSERT INTO `habitaciones` VALUES (_binary '',150000,2,1,1,'habitación 01','Una habitación espaciosa para perros grandes con cama acolchonada.'),(_binary '',150000,2,1,2,'habitación 02','Una habitación espaciosa para perros grandes con cama acolchonada.'),(_binary '',150000,2,1,3,'habitación 3','Una habitación espaciosa para perros grandes con cama acolchonada.');
 /*!40000 ALTER TABLE `habitaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
